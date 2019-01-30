@@ -39,7 +39,7 @@ function getRepoMetric(username,reponame,mymetric) {
      */
 
      // N.B. With axios the returned data is already JSON
-     return axios.get(`/repos/${username}/${reponame}`)
+     return myAxios.get(`/repos/${username}/${reponame}`)
           .then(function (res) {
                console.log("getRepoMetric returns: " + mymetric + "=" + res[mymetric]);
                return res[mymetric];
