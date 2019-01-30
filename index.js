@@ -3,7 +3,7 @@ stars2cyfe main script
 */
 require('dotenv').config();
 
-const fetch = require('fetch');
+const axios = require('axios');
 const dateFormat = require('dateformat');
 
 
@@ -19,22 +19,34 @@ function getRepoMetric(username,reponame,mymetric) {
 
      // GitHub requires User-Agent, see
      // https://developer.github.com/v3/#user-agent-required
-     var httpsOpts = {
+     var myAxios = axios.create({
+          baseURL: 'https://api.github.com',
           headers: {
                'Accept': 'application/json', // probably pro-forma
                'User-Agent': 'stars2cyfe/0.0.1'   //TODO: read this from env somehow!
           }
-     };
+     });
 
+     /*
      const getIt = async () => {
-          const res = await fetch(`https://api.github.com/repos/${username}/${reponame}`, httpsOpts);
+          const res = await fetch(`/repos/${username}/${reponame}`, httpsOpts);
           const decodedRes = await res.json();
           console.log("decodedRes = " + decodedRes);
           myValue = decodedRes[mymetric];
           console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
      }
      getIt();
-     return myValue;
+     */
+
+     // N.B. With axios the returned data is already JSON
+     return axios.get(`/repos/${username}/${reponame}`)
+          .then(function (res) {
+               console.log("getRepoMetric returns: " + mymetric + "=" + res[mymetric]);
+               return res[mymetric];
+          })
+          .catch(function(err) {
+               console.log("getRepoMetric error: " + err);
+          });
 }
 
 const colors = [

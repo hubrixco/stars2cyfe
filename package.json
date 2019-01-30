@@ -6,7 +6,7 @@
      "dependencies": {
           "dotenv": "^6.2.*",
           "dateformat": "^3.0.*",
-          "fetch": "^1.1.*"
+          "axios": "^0.18.*"
      },
      "devDependencies": {},
      "scripts": {
