@@ -22,23 +22,27 @@ function getRepoMetric(username,reponame,mymetric) {
      scale THIS code to check 1000s of repos. If we wanted that, it would
      be a complete rewrite (not a refactoring of this stuff).
      */
-
-     var res = syncrequest('GET',
-          `https://api.github.com/repos/${username}/${reponame}`,
-          {
-               // GitHub requires User-Agent, see
-               // https://developer.github.com/v3/#user-agent-required
-               headers: {
-                    'Accept': 'application/json', // probably pro-forma
-                    'User-Agent': 'stars2cyfe/0.0.1'   //TODO: read this from env somehow!
+     try {
+          var res = syncrequest('GET',
+               `https://api.github.com/repos/${username}/${reponame}`,
+               {
+                    // GitHub requires User-Agent, see
+                    // https://developer.github.com/v3/#user-agent-required
+                    headers: {
+                         'Accept': 'application/json', // probably pro-forma
+                         'User-Agent': 'stars2cyfe/0.0.1'   //TODO: read this from env somehow!
+                    }
                }
-          }
-     );
-     // TODO: add error-check logic testing res.statusCode (at least)
+          );
+          // TODO: add error-check logic testing res.statusCode (at least)
 
-     var returnedObject = JSON.parse(res.getBody());
-     myValue = returnedObject[mymetric]
-     console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
+          var returnedObject = JSON.parse(res.getBody());
+          myValue = returnedObject[mymetric]
+          console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
+     }
+     catch(err) {
+          console.log("getRepoMetric() exception: " + err);
+     }
      return myValue;
 }
 
