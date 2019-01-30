@@ -77,7 +77,7 @@ CyfeObject.data[0].Date = dateString;
 
 for (var i = 0, rlen = repoList.length; i < rlen; i++) {
      var theCount = getRepoMetric(repoUser, repoList[i], theMetric);
-     CyfeObject.data[0][repoList[i]] = theCount;
+     CyfeObject.data[0][repoList[i]] = theCount.toString(10); // force string for quotemarks
      CyfeObject.onduplicate[repoList[i]] = 'replace';
      CyfeObject.cumulative[repoList[i]] = '1';
      CyfeObject.color[repoList[i]] = colors[i];
