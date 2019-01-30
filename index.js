@@ -12,7 +12,7 @@ const dateFormat = require('dateformat');
 // reponame: URL-name of github repository
 // mymetric: name of metric to retrieve (must be in root of returned JSON)
 // returns: value of key "mymetric" (assumed numeric, 0 on any error)
-function getRepoMetric(username,reponame,mymetric) {
+async function getRepoMetric(username,reponame,mymetric) {
 
      var myValue = 0;    // store return-value in top-level variable
 
