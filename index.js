@@ -29,10 +29,11 @@ function getRepoMetric(username,reponame,mymetric) {
      const getIt = async () => {
           const res = await fetch(`https://api.github.com/repos/${username}/${reponame}`, httpsOpts);
           const decodedRes = await res.json();
+          console.log("decodedRes = " + decodedRes);
           myValue = decodedRes[mymetric];
           console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
      }
-
+     getIt();
      return myValue;
 }
 
