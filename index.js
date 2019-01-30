@@ -13,6 +13,9 @@ const dateFormat = require('dateformat');
 // mymetric: name of metric to retrieve (must be in root of returned JSON)
 // returns: value of key "mymetric" (assumed numeric, 0 on any error)
 function getRepoMetric(username,reponame,mymetric) {
+
+     var myValue = 0;    // store return-value in top-level variable
+
      // GitHub requires User-Agent, see
      // https://developer.github.com/v3/#user-agent-required
      var httpsOpts = {
@@ -33,20 +36,16 @@ function getRepoMetric(username,reponame,mymetric) {
                res.on('data', function(chunk) { body += chunk; });
                res.on('end', function() {
                     var decodedRes = JSON.parse(body);
-                    var myValue = decodedRes[mymetric];
+                    myValue = decodedRes[mymetric];
                     console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
-                    return myValue;
                });
                res.on('error', function(e) {
                     console.log("Got error: " + e.message);
                     return 0;
                });
-               console.log("getRepoMetric() pro-forma return 1"); // should never happen!
-               return 0; // pro-forma
           }
      );
-     console.log("getRepoMetric() pro-forma return 2"); // should never happen!
-     return 0; // pro-forma
+     return myValue;
 }
 
 const colors = [
