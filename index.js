@@ -4,6 +4,7 @@ stars2cyfe main script
 require('dotenv').config();
 
 const https = require('https');
+const dateFormat = require('dateformat');
 
 // Wrapper function for retrieving info on 1 repo
 // username: URL-name of github repo owner
