@@ -3,7 +3,7 @@ stars2cyfe main script
 */
 require('dotenv').config();
 
-const axios = require('axios');
+const syncrequest = require('sync-request');
 const dateFormat = require('dateformat');
 
 
@@ -17,36 +17,29 @@ function getRepoMetric(username,reponame,mymetric) {
 
      var myValue = 0;    // store return-value in top-level variable
 
-     // GitHub requires User-Agent, see
-     // https://developer.github.com/v3/#user-agent-required
-     var myAxios = axios.create({
-          baseURL: 'https://api.github.com',
-          headers: {
-               'Accept': 'application/json', // probably pro-forma
-               'User-Agent': 'stars2cyfe/0.0.1'   //TODO: read this from env somehow!
-          }
-     });
-
-     /*
-     const getIt = async () => {
-          const res = await fetch(`/repos/${username}/${reponame}`, httpsOpts);
-          const decodedRes = await res.json();
-          console.log("decodedRes = " + decodedRes);
-          myValue = decodedRes[mymetric];
-          console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
-     }
-     getIt();
+     /* YES!! I know sync-request should NOT be used in production apps.
+     But THIS IS NOT AN APP! It's a once/day cron job. We don't plan to
+     scale THIS code to check 1000s of repos. If we wanted that, it would
+     be a complete rewrite (not a refactoring of this stuff).
      */
 
-     // N.B. With axios the returned data is already JSON
-     return myAxios.get(`/repos/${username}/${reponame}`)
-          .then(function (res) {
-               console.log("getRepoMetric returns: " + mymetric + "=" + res[mymetric]);
-               return res[mymetric];
-          })
-          .catch(function(err) {
-               console.log("getRepoMetric error: " + err);
-          });
+     var res = syncrequest('GET',
+          `https://api.github.com/repos/${username}/${reponame}`,
+          {
+               // GitHub requires User-Agent, see
+               // https://developer.github.com/v3/#user-agent-required
+               headers: {
+                    'Accept': 'application/json', // probably pro-forma
+                    'User-Agent': 'stars2cyfe/0.0.1'   //TODO: read this from env somehow!
+               }
+          }
+     );
+     // TODO: add error-check logic testing res.statusCode (at least)
+
+     var returnedObject = JSON.parse(res.getBody());
+     myValue = returnedObject[mymetric]
+     console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
+     return myValue;
 }
 
 const colors = [

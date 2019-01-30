@@ -6,7 +6,7 @@
      "dependencies": {
           "dotenv": "^6.2.*",
           "dateformat": "^3.0.*",
-          "axios": "^0.18.*"
+          "sync-request": "^6.0.*"
      },
      "devDependencies": {},
      "scripts": {
