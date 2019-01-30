@@ -15,13 +15,19 @@ const dateFormat = require('dateformat');
 function getRepoMetric(username,reponame,mymetric) {
      // GitHub requires User-Agent, see
      // https://developer.github.com/v3/#user-agent-required
-     const httpOpts = {
+     var httpsOpts = {
+          host: 'api.github.com',
+          port: 443,
+          path: `/repos/${username}/${reponame}`,
           headers: {
+               'Accept': 'application/json', // probably pro-forma
                'User-Agent': 'stars2cyfe/0.0.1'   //TODO: read this from env somehow!
           }
      };
 
-     https.get(`https://api.github.com/repos/${username}/${reponame}`, httpOpts,
+     // this didn't work for some reason, had to put URL in options object
+//     https.get(`https://api.github.com/repos/${username}/${reponame}`, httpsOpts,
+     https.get(httpsOpts,
           function(res) {
                var body = '';
                res.on('data', function(chunk) { body += chunk; });
@@ -81,7 +87,7 @@ for (var i = 0, rlen = repoList.length; i < rlen; i++) {
 
 // All done! convert to JSON and spit it out
 
-console.log(JSON.stringify(CyfeObject));
+console.log(JSON.stringify(CyfeObject,null,4));   // TODO: temp! prettify during debug only!
 
 // TODO: add push-to-Cyfe logic
 // TODO: add bulletproofing / error-checking
