@@ -30,7 +30,7 @@ function getRepoMetric(username,reponame,mymetric) {
 
      // this didn't work for some reason, had to put URL in options object
 //     https.get(`https://api.github.com/repos/${username}/${reponame}`, httpsOpts,
-     https.get(httpsOpts,
+     await https.get(httpsOpts,
           function(res) {
                var body = '';
                res.on('data', function(chunk) { body += chunk; });
