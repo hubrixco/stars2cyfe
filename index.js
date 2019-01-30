@@ -6,13 +6,22 @@ require('dotenv').config();
 const https = require('https');
 const dateFormat = require('dateformat');
 
+
 // Wrapper function for retrieving info on 1 repo
 // username: URL-name of github repo owner
 // reponame: URL-name of github repository
 // mymetric: name of metric to retrieve (must be in root of returned JSON)
 // returns: value of key "mymetric" (assumed numeric, 0 on any error)
 function getRepoMetric(username,reponame,mymetric) {
-     https.get(`https://api.github.com/repos/${username}/${reponame}`,
+     // GitHub requires User-Agent, see
+     // https://developer.github.com/v3/#user-agent-required
+     const httpOpts = {
+          headers: {
+               'User-Agent': 'stars2cyfe/0.0.1'   //TODO: read this from env somehow!
+          }
+     };
+
+     https.get(`https://api.github.com/repos/${username}/${reponame}`, httpOpts,
           function(res) {
                var body = '';
                res.on('data', function(chunk) { body += chunk; });
