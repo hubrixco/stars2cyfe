@@ -12,39 +12,27 @@ const dateFormat = require('dateformat');
 // reponame: URL-name of github repository
 // mymetric: name of metric to retrieve (must be in root of returned JSON)
 // returns: value of key "mymetric" (assumed numeric, 0 on any error)
-async function getRepoMetric(username,reponame,mymetric) {
+
+function getRepoMetric(username,reponame,mymetric) {
 
      var myValue = 0;    // store return-value in top-level variable
 
      // GitHub requires User-Agent, see
      // https://developer.github.com/v3/#user-agent-required
      var httpsOpts = {
-          host: 'api.github.com',
-          port: 443,
-          path: `/repos/${username}/${reponame}`,
           headers: {
                'Accept': 'application/json', // probably pro-forma
                'User-Agent': 'stars2cyfe/0.0.1'   //TODO: read this from env somehow!
           }
      };
 
-     // this didn't work for some reason, had to put URL in options object
-//     https.get(`https://api.github.com/repos/${username}/${reponame}`, httpsOpts,
-     await https.get(httpsOpts,
-          function(res) {
-               var body = '';
-               res.on('data', function(chunk) { body += chunk; });
-               res.on('end', function() {
-                    var decodedRes = JSON.parse(body);
-                    myValue = decodedRes[mymetric];
-                    console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
-               });
-               res.on('error', function(e) {
-                    console.log("Got error: " + e.message);
-                    return 0;
-               });
-          }
-     );
+     const getIt = async () => {
+          const res = await fetch(`https://api.github.com/repos/${username}/${reponame}`, httpsOpts);
+          const decodedRes = await res.json();
+          myValue = decodedRes[mymetric];
+          console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
+     }
+
      return myValue;
 }
 
