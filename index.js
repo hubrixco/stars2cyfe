@@ -3,7 +3,7 @@ stars2cyfe main script
 */
 require('dotenv').config();
 
-const https = require('https');
+const fetch = require('fetch');
 const dateFormat = require('dateformat');
 
 
