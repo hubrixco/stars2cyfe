@@ -19,11 +19,11 @@ function getRepoMetric(username,reponame,mymetric) {
                res.on('end', function() {
                     var decodedRes = JSON.parse(body);
                     var myValue = decodedRes[mymetric];
-                    Console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
+                    console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
                     return myValue;
                });
                res.on('error', function(e) {
-                    Console.log("Got error: " + e.message);
+                    console.log("Got error: " + e.message);
                     return 0;
                });
                return 0; // pro-forma
@@ -72,7 +72,7 @@ for (var i = 0, rlen = repoList.length; i < rlen; i++) {
 
 // All done! convert to JSON and spit it out
 
-Console.log(JSON.stringify(CyfeObject));
+console.log(JSON.stringify(CyfeObject));
 
 // TODO: add push-to-Cyfe logic
 // TODO: add bulletproofing / error-checking
