@@ -1,0 +1,21 @@
+{
+     "name": "stars2cyfe",
+     "version": "0.0.1",
+     "description": "Script to get Starred-counts from GitHub repos and push to Cyfe widget",
+     "main": "index.js",
+     "dependencies": {
+          "dotenv": "^6.2.*",
+          "dateformat": "^3.0.*"
+     },
+     "devDependencies": {},
+     "scripts": {
+          "test": "echo \"Error: no test specified\" && exit 1"
+     },
+     "repository": {
+          "type": "git",
+          "url": "https://hubrix@bitbucket.org/hubrix-devops/stars2cyfe.git"
+     },
+     "author": "Daniel de Segovia Gross",
+     "license": "Apache 2.0",
+     "homepage": "https://bitbucket.org/hubrix-devops/stars2cyfe/"
+}

@@ -1,5 +1,15 @@
 # Stars2Cyfe
 
-A simple NodeJS script, intended to be run on a daily schedule (e.g. with cron), to collect &#34;Starred&#34; counts on specified GitHub respo&#39;s and &#34;push&#34; the resulting data to a Cyfe &#34;Push API&#34; widget for tracking in a Cyfe dashbord.
+A simple NodeJS script, intended to be run on a daily schedule (e.g. with cron), to collect "Starred" counts on specified GitHub respositories and "push" the resulting data to a Cyfe "Push API" widget for tracking in a Cyfe dashbord.
 
-The Cyfe &#34;Push API&#34; is a straightforward specification for a JSON payload to be POSTed to an endpoint URL. The JSON format is documented here: https://www.cyfe.com/api
+The Cyfe "Push API" is a straightforward specification for a JSON payload to be POSTed to an endpoint URL. The JSON format is documented here: https://www.cyfe.com/api
+
+This is a rewrite of an earlier (very shabby) implementation of this same logic as a bash script, stored as a Snippet: https://bitbucket.org/snippets/hubrix-mktg/zeqRo5/getstars-retrieve-starred-count-from
+
+## What to put in the .env file
+
+Here is the required contents and format of `.env` variables:
+
+* `ghuser` the GitHub username / owner of the repos
+* `ghrepos` a comma-delimited list of repo names
+* `cyfendpoint` the endpoint URL of the Cyfe "Push API" widget
