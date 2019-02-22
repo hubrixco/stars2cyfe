@@ -6,6 +6,26 @@ require('dotenv').config();
 const syncrequest = require('sync-request');
 const dateFormat = require('dateformat');
 
+function envCheck() {
+     // Validate our environmnent variables; fail harshly if no good
+     if (!process.env.ghuser) {
+          console.log("Required variable 'ghuser' not set in .env file");
+          process.exit(1);
+     };
+     if (!process.env.ghrepos) {
+          console.log("Required variable 'ghrepos' not set in .env file");
+          process.exit(1);
+          // TODO: Test ghrepos well-formed (comma-delimited string)
+     };
+     if (!process.env.cyfendpoint) {
+          console.log("Required variable 'cyfendpoint' not set in .env file");
+          process.exit(1);
+     };
+     if (!process.env.ghmetric) {
+          // Not an error, just set it to default
+          process.env.ghmetric = 'stargazers_count';
+     }
+}
 
 // Wrapper function for retrieving info on 1 repo
 // username: URL-name of github repo owner
@@ -34,11 +54,15 @@ function getRepoMetric(username,reponame,mymetric) {
                     }
                }
           );
-          // TODO: add error-check logic testing res.statusCode (at least)
+          // Minimal error-check logic testing res.statusCode
+          if (res.statusCode < 200 || res.statusCode > 399) {
+               console.log(`Got ${res.statusCode} for repo ${username}/${reponame}, returning 0`);
+               return myValue;
+          }
 
           var returnedObject = JSON.parse(res.getBody());
-          myValue = returnedObject[mymetric]
-          console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
+          myValue = returnedObject[mymetric];
+          // console.log("getRepoMetric returns: " + mymetric + "=" + myValue);
      }
      catch(err) {
           console.log("getRepoMetric() exception: " + err);
@@ -51,9 +75,14 @@ const colors = [
      '#bc2935',
      '#6666ff',
      '#ff9999',
-     '#66ff66',
+     '#66ff66',     // 5
      '#ff66ff',
-     '#6666ff'
+     '#6666ff',
+     '#ffff66',
+     '#ff6666',
+     '#00ff00',     // 10
+     '#ff00ff',
+     '#66ffff'      // 12 colors
      // TODO: need more colors or a generator
 ];
 
@@ -68,6 +97,8 @@ let CyfeObject = {
      type: {}
 };
 
+envCheck(); // sanity-check on .env variables, set defaults
+
 let repoUser = process.env.ghuser;
 let repoList = process.env.ghrepos.split(',');
 let theMetric = process.env.ghmetric;
@@ -81,12 +112,12 @@ for (var i = 0, rlen = repoList.length; i < rlen; i++) {
      CyfeObject.onduplicate[repoList[i]] = 'replace';
      CyfeObject.cumulative[repoList[i]] = '1';
      CyfeObject.color[repoList[i]] = colors[i];
-     CyfeObject.type[repoList[i]] = 'line'; // TODO: hard-coded, need to add logic
+     CyfeObject.type[repoList[i]] = 'line'; // TODO: move this to process.env ?
 }
 
 // All done! convert to JSON and spit it out
+// console.log(JSON.stringify(CyfeObject,null,4));
 
-console.log(JSON.stringify(CyfeObject,null,4));   // TODO: temp! prettify during debug only!
-
-// TODO: add push-to-Cyfe logic
+// Push it to Cyfe
+var cyferes = syncrequest('POST', process.env.cyfendpoint, { json: CyfeObject});
 // TODO: add bulletproofing / error-checking

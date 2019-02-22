@@ -1,7 +1,7 @@
 {
      "name": "stars2cyfe",
-     "version": "0.0.1",
-     "description": "Script to get Starred-counts from GitHub repos and push to Cyfe widget",
+     "version": "0.0.2",
+     "description": "Script to get metrics from GitHub repos and push to Cyfe widget",
      "main": "index.js",
      "dependencies": {
           "dotenv": "^6.2.*",
