@@ -4,7 +4,7 @@ A simple NodeJS script, intended to be run on a daily schedule (e.g. with `cron`
 
 ![Cyfe widget populated with Stars2Cyfe](https://storage.googleapis.com/webdata.hubrix.co/static/stars2cyfe.example.jpg "Cyfe widget populated with Stars2Cyfe")
 
-**Cyfe** is a handy SaaS utility to build metrics and KPI dashboards out of "widgets." Hubrix has no special relationship with Cyfe, we're just a happy user. <a href="https://www.cyfe.com/" target="_blank">https://www.cyfe.com/</a>
+**Cyfe** is a handy SaaS utility to build metrics and KPI dashboards out of "widgets." Hubrix has no special relationship with Cyfe, we're just a happy user. [https://www.cyfe.com/](https://www.cyfe.com/){:target="_blank" rel="noopener"}
 
 The Cyfe "Push API" is a straightforward specification for a JSON payload to be POSTed to an endpoint URL. This in turn updates a dashboard widget. Cyfe takes care of storing previous data so you can explore trends over an arbitrary date range. The JSON format is documented here: https://www.cyfe.com/api
 
